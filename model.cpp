@@ -25,7 +25,7 @@ Model::Model() {
 }
 // Destructor deletes dynamically allocated memory
 Model::~Model() {
-	
+
 }
 
 bool Model::gameOver() {
@@ -39,16 +39,16 @@ void Model::go(Direction d)
 	return;
 }
 
-void Model::calculate(Model * model)
+void Model::calculate()
 {
 	//update bottom part of road image
-	source_road_1.h = source_road_1.h - 1;
-    destination_road_1.y = destination_road_1.y + 1;
-	
+	source_road_1.h = source_road_1.h - 10;
+    destination_road_1.y = destination_road_1.y + 10;
+
 	//update top part of road image
-    source_road_2.y = source_road_2.y - 1;
-    source_road_2.h = source_road_2.h + 1;
-	
+    source_road_2.y = source_road_2.y - 10;
+    source_road_2.h = source_road_2.h + 10;
+
 	//reset road image after every loop through
 	if (source_road_2.y == 0 || source_road_2.h == 720) {
 		source_road_1.h = 720;
@@ -56,7 +56,7 @@ void Model::calculate(Model * model)
 		source_road_2.y = 720;
 		source_road_2.h = 0;
 	}
-	
+
 	//updates car position
 	switch(direction)
 	{
@@ -67,7 +67,7 @@ void Model::calculate(Model * model)
 		case STAGNANT:
 		break;
 	}
-	
+
 	return;
 }
 

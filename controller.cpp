@@ -1,4 +1,5 @@
 #include "controller.h"
+#include <iostream>
 #include <map>
 
 using namespace std;
@@ -26,9 +27,22 @@ void Controller::loop() {
     //direction[SDLK_DOWN] = DOWN;
     direction[SDLK_LEFT] = LEFT;
     direction[SDLK_RIGHT] = RIGHT;
+    float frameTime = 0;
+    float deltaTime = 0;
+    int framesps;
+    int counter = 0;
+    int frame = 0;
+    const int fps = 60;
+
 
     while(!model->gameOver()) {
+        framesps = 1;
+        lastTime = currentTime;
         currentTime = SDL_GetTicks();
+        deltaTime = (currentTime - lastTime) / 1000.0f;
+        framesps =  framesps / deltaTime;
+
+        cout << framesps << endl;
         // Do stuff here to animate as necessary
 		view->show(model);
         if (SDL_PollEvent(&e) != 0) {
@@ -42,7 +56,7 @@ void Controller::loop() {
                 case SDLK_LEFT:
                 case SDLK_RIGHT:
 					model->go(direction[e.key.keysym.sym]);
-					//model->calculate(model);
+					model->calculate();
                 break;
                 default:
                 break;
@@ -50,11 +64,16 @@ void Controller::loop() {
             case SDL_MOUSEBUTTONDOWN:
                 break;
             }
+
         }
-		else { 
+		else {
 			model->direction = STAGNANT;
 			model->calculate();
 		}
+		if(deltaTime < (1000 / fps))
+        {
+            SDL_Delay((1000 / fps) - deltaTime);
+        }
     }
     // TODO: show something nice?
     view->show(model);
